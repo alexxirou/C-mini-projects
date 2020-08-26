@@ -3,6 +3,8 @@
 #include <cstdlib>
 #include <ctime>
 
+
+
 static void drawLine(int n, char symbol)
 {
 	for (int i = 0; i < n; i++)
@@ -17,13 +19,14 @@ public:
 	int balance;
 	int bettingAmount;
 	int guess;
+	int dice;
 
-	
 	Player() {
 		playerName = "Player";
 		static int balance = 0;
 		bettingAmount = 0;
 		guess = 0;
+		dice = 0;
 		createProfile();
 	}
 
@@ -46,6 +49,10 @@ public:
 
 	Menu() {
 	 static	int choice = 1;
+	 int *ptrguess = &guess;
+	 int *ptrdice = &dice;
+	 //std::cout << *ptrguess;
+	 //std::cout << *ptrdice;
 		while (choice == 1) {
 
 			rules();
@@ -68,14 +75,15 @@ public:
 				std::cout << "Choose a valid betting ammount, less or equal to your balance: ";
 				std::cin >> bettingAmount;
 			}
-			int guess = 0;
-			int dice;
-			dice = rand() % 10 + 1; // Will hold the randomly generated integer between 1 and 10
-			while (guess <= 0 || guess > 10) {
+			
+			*ptrdice = rand() % 10 + 1; // Will hold the randomly generated integer between 1 and 10
+			//std::cout << *ptrdice;
+			while (*ptrguess <= 0 || *ptrguess > 10) {
 				std::cout << "Pick a valid number to bet on between 1 to 10 : ";
-				std::cin >> guess;
+				std::cin >> *ptrguess;
+				//std::cout << *ptrguess;
 			}
-			if (dice == guess) {
+			if (*ptrdice == *ptrguess) {
 				balance = balance + (10 * bettingAmount);
 				bettingAmount = 0;
 				std::cout << "You win! Your current balance is: " << balance << std::endl;
@@ -92,8 +100,11 @@ public:
 					return;
 				}
 			}
+			*ptrguess = 0;
 			std::cout << "Choose 2 to keep playing, or 3 to grab your munny and run away: ";
 			std::cin >> choice;
+			//std::cout << *ptrguess;
+
 
 			while (choice != 2 && choice != 3) {
 				std::cout << "Choose 2 to keep playing, or 3 to grab your munny and run away: ";
